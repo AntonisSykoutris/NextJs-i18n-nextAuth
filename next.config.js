@@ -5,4 +5,7 @@ const withNextIntl = require('next-intl/plugin')(
 
 module.exports = withNextIntl({
   // Other Next.js configuration ...
+  images: {
+    domains: ['tailwindui.com', 'images.unsplash.com'], // Add 'tailwindui.com' to the list of allowed domains
+  },
 });

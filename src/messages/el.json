@@ -1,5 +1,23 @@
 {
   "Index": {
     "title": "Καλησπέρα Κόσμε!"
+  },
+  "Navbar": {
+    "home": "Αρχική",
+    "invoices": "Παραστατικά",
+    "management": "Διαχείριση",
+    "billing": "Billing",
+    "tools": "Εργαλεία",
+    "help": "Βοήθεια"
+  },
+  "SignIn": {
+    "title": "Είσοδος στο Λογαριασμό σας",
+    "emailLabel": "Διεύθυνση Email",
+    "passwordLabel": "Κωδικός",
+    "missingPassword": "Ξεχάσατε το κωδικό σας?",
+    "signInButton": "Είσοδος",
+    "trial": "Δεν είστε μέλος?",
+    "trialMessage": "Ξεκινήστε μια δωρεάν δοκιμή 14 ημερών",
+    "wrongCredentials": "Λάθος email ή κωδικός, παρακαλώ προσπαθήστε ξανά"
   }
 }

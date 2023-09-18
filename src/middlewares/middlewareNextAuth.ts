@@ -1,9 +1,10 @@
 import { NextFetchEvent, NextMiddleware, NextRequest } from 'next/server';
-export { default } from 'next-auth/middleware';
+import { withAuth } from 'next-auth/middleware';
 
 export function middlewareNextAuth(middleware: NextMiddleware): NextMiddleware {
   return async (request: NextRequest, event: NextFetchEvent) => {
-    // console.log('second one');
+    // await withAuth({});
+
     return middleware(request, event);
   };
 }

@@ -1,48 +1,54 @@
+import { ReactNode } from 'react';
 import { useLocale } from 'next-intl';
 import { notFound } from 'next/navigation';
-import { ReactNode } from 'react';
-import { Session } from 'next-auth';
-import { getServerSession } from 'next-auth/next';
-import { options } from '../api/auth/[...nextauth]/options';
-import Header from './components/Header';
+import { NextIntlClientProvider } from 'next-intl';
+
 import Navbar from './components/Navbar';
+import NavbarTest from './components/NavbarTest';
+import ThemeSwitcher from './components/ThemeSwitcher';
 import AuthProvider from './context/AuthProvider';
+import NextUIProvider from './context/NextUIProvider';
 import './globals.css';
 
-interface LocaleLayoutProps {
+// Define the props type for RootLayout
+type RootLayoutProps = {
   children: ReactNode;
   params: {
     locale: string;
   };
-}
+};
 
-export default async function LocaleLayout({
+export default async function RootLayout({
   children,
   params,
-}: LocaleLayoutProps) {
+}: RootLayoutProps) {
   const locale = useLocale();
-  let session: Session | null = null;
 
-  // Validate that the incoming `locale` parameter is a valid locale
   if (params.locale !== locale) {
     notFound();
   }
 
+  let messages;
   try {
-    session = await getServerSession(options);
+    // Load messages for the specified locale
+    messages = (await import(`../../messages/${locale}.json`)).default;
   } catch (error) {
-    session = null;
-    console.log('failed to get session', error);
+    console.log('Failed to get the localized text', error);
+    notFound();
   }
 
   return (
     <html lang={locale}>
       <body>
-        <AuthProvider session={session}>
-          <Header lang={locale} />
-          {/* <Navbar /> */}
-          <main>{children}</main>
-        </AuthProvider>
+        <NextUIProvider>
+          <NextIntlClientProvider locale={locale} messages={messages}>
+            <AuthProvider>
+              <Navbar locale={locale} />
+              <NavbarTest locale={locale} />
+              <main>{children}</main>
+            </AuthProvider>
+          </NextIntlClientProvider>
+        </NextUIProvider>
       </body>
     </html>
   );

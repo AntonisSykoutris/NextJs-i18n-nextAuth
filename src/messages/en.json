@@ -1,5 +1,23 @@
 {
   "Index": {
     "title": "Hello world!"
+  },
+  "Navbar": {
+    "home": "Home",
+    "invoices": "Invoices",
+    "management": "Management",
+    "billing": "Billing",
+    "tools": "Tools",
+    "help": "Help"
+  },
+  "SignIn": {
+    "title": "Sign in to your account",
+    "emailLabel": "Email address",
+    "passwordLabel": "Password",
+    "missingPassword": "Forgot password?",
+    "signInButton": "Sign In",
+    "trial": "Not a member?",
+    "trialMessage": "Start a 14 day free trial",
+    "wrongCredentials": "Wrong email or password, please try again"
   }
 }
