@@ -23,14 +23,6 @@ export default function NavbarButtons({ locale }: { locale: string }) {
   const { data: session } = useSession();
   return (
     <NavbarContent justify="end">
-      {session ? null : (
-        <NavbarItem>
-          <Button as={Link} color="primary" href="#" variant="flat">
-            Sign In
-          </Button>
-        </NavbarItem>
-      )}
-
       <NavbarItem>
         <LocaleDropdown locale={locale} />
       </NavbarItem>
@@ -69,7 +61,7 @@ export default function NavbarButtons({ locale }: { locale: string }) {
               </Link>
             </DropdownItem>
             <DropdownItem key={t('profile_logout')} textValue={t('profile_logout')} color={'danger'}>
-              <span className=" text-red-500 ">{t('profile_logout')}</span>
+              <span className="text-danger-400 ">{t('profile_logout')}</span>
             </DropdownItem>
           </DropdownMenu>
         </Dropdown>
