@@ -11,7 +11,6 @@ type NavbarProps = {
 
 export default function MainNavbar({ locale }: NavbarProps): JSX.Element {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
-  const menuItems = ['bbb', 'test'];
   return (
     <Navbar
       height={'4rem'}
