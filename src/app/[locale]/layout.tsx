@@ -3,8 +3,8 @@ import { useLocale } from 'next-intl';
 import { notFound } from 'next/navigation';
 import { NextIntlClientProvider } from 'next-intl';
 
-import Navbar from './components/Navbar';
-import NavbarTest from './components/NavbarTest';
+import Navbar from './components/Navbar/Navbar';
+import NavbarTest from './components/Navbar/Navbar';
 import ThemeSwitcher from './components/ThemeSwitcher';
 import AuthProvider from './context/AuthProvider';
 import NextUIProvider from './context/NextUIProvider';
@@ -44,7 +44,6 @@ export default async function RootLayout({
           <NextIntlClientProvider locale={locale} messages={messages}>
             <AuthProvider>
               <Navbar locale={locale} />
-              <NavbarTest locale={locale} />
               <main>{children}</main>
             </AuthProvider>
           </NextIntlClientProvider>

@@ -33,16 +33,9 @@ export const options: NextAuthOptions = {
           password: '123',
           role: 47, // [admink,manger,...] 47 01001001101
         };
-
-        if (
-          credentials?.email === user.email &&
-          credentials?.password === user.password
-        ) {
+        if (credentials?.email === user.email && credentials?.password === user.password) {
           return user;
-        } else if (
-          credentials?.email !== user.email ||
-          credentials?.password !== user.password
-        ) {
+        } else if (credentials?.email !== user.email || credentials?.password !== user.password) {
           throw new Error('wrongCredentials');
         }
         {
