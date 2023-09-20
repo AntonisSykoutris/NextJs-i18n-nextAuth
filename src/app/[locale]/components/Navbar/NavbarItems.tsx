@@ -3,6 +3,7 @@
 import {
   NavbarContent,
   NavbarItem,
+  NavbarMenuItem,
   Link,
   Dropdown,
   DropdownTrigger,
@@ -21,215 +22,160 @@ import {
   CreditCardIcon,
   CogIcon,
   QuestionMarkCircleIcon,
-  ChevronDownIcon,
 } from '@heroicons/react/outline';
 
-export default function NavbarItems(): JSX.Element {
-  const t = useTranslations('Navbar');
-  return (
-    <NavbarContent className="hidden sm:flex gap-8 text-xl " justify="center">
-      <NavbarItem>
-        <Button
-          href="/"
-          as={NextLink}
-          disableRipple
-          className="p-0 bg-transparent data-[hover=true]:bg-transparent data-[hover=true]:text-primary-500 text-lg"
-          startContent={<HomeIcon className="h-5 w-5" />}
-          radius="sm"
-          variant="light"
-        >
-          {t('home')}
-        </Button>
-      </NavbarItem>
-      <NavbarItem>
-        <Dropdown className="min-w-[8em]" showArrow={true} disableAnimation={true}>
-          <DropdownTrigger className="">
-            <Button
-              disableRipple
-              className="p-0 bg-transparent data-[hover=true]:bg-transparent data-[hover=true]:text-primary-500 text-lg"
-              startContent={<DocumentTextIcon className="h-5 w-5" />}
-              radius="sm"
-              variant="light"
-            >
-              {t('invoices')}
-            </Button>
-          </DropdownTrigger>
-          <DropdownMenu variant="faded" aria-label="Dropdown menu with description">
-            <DropdownSection showDivider>
-              <DropdownItem key={t('invoices_inbox')} textValue={t('invoices_inbox')}>
-                <Link color="foreground" href="/" as={NextLink}>
-                  {t('invoices_inbox')}
-                </Link>
-              </DropdownItem>
-            </DropdownSection>
-            <DropdownSection showDivider>
-              <DropdownItem key={t('invoices_preInvoices')} textValue={t('invoices_preInvoices')}>
-                <Link color="foreground" href="/" as={NextLink}>
-                  {t('invoices_preInvoices')}
-                </Link>
-              </DropdownItem>
-              <DropdownItem key={t('invoices_transmissionError')} textValue={t('invoices_transmissionError')}>
-                <Link color="foreground" href="/" as={NextLink}>
-                  {t('invoices_transmissionError')}
-                </Link>
-              </DropdownItem>
-            </DropdownSection>
-            <DropdownSection>
-              <DropdownItem key={t('invoices_approvalFlow')} textValue={t('invoices_approvalFlow')}>
-                <Link color="foreground" href="/" as={NextLink}>
-                  {t('invoices_approvalFlow')}
-                </Link>
-              </DropdownItem>
-              <DropdownItem key={t('invoices_foodAndBeverages')} textValue={t('invoices_foodAndBeverages')}>
-                <Link color="foreground" href="/" as={NextLink}>
-                  {t('invoices_foodAndBeverages')}
-                </Link>
-              </DropdownItem>
-            </DropdownSection>
-          </DropdownMenu>
-        </Dropdown>
-      </NavbarItem>
+type NavbarItem = {
+  label: string;
+  subLabel?: string;
+  icon?: JSX.Element;
+  href?: string;
+  divider?: boolean;
+  subItems?: NavbarItem[][];
+};
 
-      <NavbarItem>
-        <Button
-          href="/"
-          as={NextLink}
-          disableRipple
-          className="p-0 bg-transparent data-[hover=true]:bg-transparent data-[hover=true]:text-primary-500 text-lg "
-          startContent={<CreditCardIcon className="h-5 w-5 " />}
-          radius="sm"
-          variant="light"
-        >
-          {t('billing')}
-        </Button>
-      </NavbarItem>
-      <NavbarItem>
-        <Dropdown className="min-w-[8em]" showArrow={true} disableAnimation={true}>
-          <DropdownTrigger>
+const navbarItems: NavbarItem[] = [
+  {
+    label: 'home',
+    icon: <HomeIcon className='h-5 w-5' />,
+    href: '/',
+  },
+  {
+    label: 'invoices',
+    icon: <DocumentTextIcon className='h-5 w-5' />,
+    subItems: [
+      [
+        { label: 'invoices_inbox', href: '/', divider: true },
+        { label: 'invoices_preInvoices', href: '/' },
+        { label: 'invoices_transmissionError', href: '/', divider: true },
+        { label: 'invoices_approvalFlow', href: '/' },
+        { label: 'invoices_foodAndBeverages', href: '/' },
+      ],
+    ],
+  },
+  {
+    label: 'billing',
+    icon: <CreditCardIcon className='h-5 w-5' />,
+    href: '/',
+  },
+  {
+    label: 'tools',
+    icon: <CogIcon className='h-5 w-5' />,
+    subItems: [
+      [
+        { label: 'tools_impersonate', href: '/' },
+        { label: 'tools_vatValidationVies', href: '/' },
+        { label: 'tools_vatValidationGsis', href: '/' },
+        { label: 'tools_EmailValidationIapr', href: '/' },
+        { label: 'tools_IaprConverter', href: '/' },
+        { label: 'tools_invoiceCustomization', href: '/', divider: true },
+      ],
+      [
+        {
+          label: 'tools_branchManagement',
+          href: '/',
+          subLabel: 'tools_management',
+        },
+        { label: 'tools_companyManagement', href: '/' },
+        { label: 'tools_packagesExpiration', href: '/' },
+        { label: 'tools_inactivePackages', href: '/' },
+      ],
+    ],
+  },
+  {
+    label: 'help',
+    icon: <QuestionMarkCircleIcon className='h-5 w-5' />,
+    subItems: [
+      [
+        { label: 'help_frequentlyAskedQuestions', href: '/' },
+        { label: 'help_downloadManual', href: '/' },
+        { label: 'help_iaprDocumentation', href: '/', divider: true },
+        { label: 'help_openApiDocumentation', href: '/' },
+        { label: 'help_developerWiki', href: '/' },
+      ],
+    ],
+  },
+];
+
+export default function NavbarItems({
+  isMobile,
+}: {
+  isMobile: boolean;
+}): JSX.Element {
+  const t = useTranslations('Navbar');
+  let Tag = isMobile ? NavbarMenuItem : NavbarContent;
+
+  const renderDropdownItems = (items: NavbarItem[]) =>
+    items.map((item) => (
+      <DropdownItem
+        key={t(item.label)}
+        textValue={t(item.label)}
+        showDivider={item?.divider}
+      >
+        <Link color='foreground' href={item.href} as={NextLink}>
+          {t(item.label)}
+        </Link>
+      </DropdownItem>
+    ));
+
+  return (
+    <Tag className={isMobile ? '' : 'hidden sm:flex gap-8 text-xl'}>
+      {navbarItems.map((item) => (
+        <NavbarItem key={item.label}>
+          {item.subItems ? (
+            <Dropdown
+              className='min-w-[8em]'
+              showArrow={true}
+              disableAnimation={true}
+            >
+              <DropdownTrigger>
+                <Button
+                  disableRipple
+                  className='p-0 bg-transparent data-[hover=true]:bg-transparent data-[hover=true]:text-primary-500 text-lg'
+                  startContent={item.icon ? item.icon : null}
+                  radius='sm'
+                  variant='light'
+                >
+                  {t(item.label)}
+                </Button>
+              </DropdownTrigger>
+              <DropdownMenu
+                variant='faded'
+                aria-label={`Dropdown menu for ${item.label}`}
+              >
+                {item.subItems &&
+                  item?.subItems.map((subitemArr, index) => (
+                    <DropdownSection
+                      key={index}
+                      title={
+                        subitemArr[0]?.subLabel
+                          ? t(subitemArr[0]?.subLabel)
+                          : ''
+                      }
+                      showDivider={item.divider ? true : false}
+                      classNames={{
+                        heading: 'font-bold underline decoration-black text-sm',
+                      }}
+                    >
+                      {renderDropdownItems(subitemArr)}
+                    </DropdownSection>
+                  ))}
+              </DropdownMenu>
+            </Dropdown>
+          ) : (
             <Button
+              href={item.href}
+              as={NextLink}
               disableRipple
-              className="p-0 bg-transparent data-[hover=true]:bg-transparent data-[hover=true]:text-primary-500  text-lg "
-              startContent={<CogIcon className="h-5 w-5" />}
-              radius="sm"
-              variant="light"
+              className='p-0 bg-transparent data-[hover=true]:bg-transparent data-[hover=true]:text-primary-500 text-lg'
+              startContent={item.icon ? item.icon : null}
+              radius='sm'
+              variant='light'
             >
-              {t('tools')}
+              {t(item.label)}
             </Button>
-          </DropdownTrigger>
-          <DropdownMenu variant="faded" aria-label="Dropdown menu with description">
-            <DropdownSection showDivider>
-              <DropdownItem key={t('tools_impersonate')} textValue={t('tools_impersonate')}>
-                <Link color="foreground" href="/" as={NextLink}>
-                  {t('tools_impersonate')}
-                </Link>
-              </DropdownItem>
-              <DropdownItem key={t('tools_vatValidationVies')} textValue={t('tools_vatValidationVies')}>
-                <Link color="foreground" href="/" as={NextLink}>
-                  {t('tools_vatValidationVies')}
-                </Link>
-              </DropdownItem>
-              <DropdownItem key={t('tools_vatValidationGsis')} textValue={t('tools_vatValidationGsis')}>
-                <Link color="foreground" href="/" as={NextLink}>
-                  {t('tools_vatValidationGsis')}
-                </Link>
-              </DropdownItem>
-              <DropdownItem key={t('tools_EmailValidationIapr')} textValue={t('tools_EmailValidationIapr')}>
-                <Link color="foreground" href="/" as={NextLink}>
-                  {t('tools_EmailValidationIapr')}
-                </Link>
-              </DropdownItem>
-              <DropdownItem key={t('tools_IaprConverter')} textValue={t('tools_IaprConverter')}>
-                <Link color="foreground" href="/" as={NextLink}>
-                  {t('tools_IaprConverter')}
-                </Link>
-              </DropdownItem>
-            </DropdownSection>
-            <DropdownSection
-              title={t('tools_management')}
-              classNames={{
-                heading: 'font-bold underline decoration-black text-sm',
-              }}
-            >
-              <DropdownItem key={t('tools_invoiceCustomization')} textValue={t('tools_invoiceCustomization')}>
-                <Link color="foreground" href="/" as={NextLink}>
-                  {t('tools_invoiceCustomization')}
-                </Link>
-              </DropdownItem>
-              <DropdownItem key={t('tools_userManagement')} textValue={t('tools_userManagement')}>
-                <Link color="foreground" href="/" as={NextLink}>
-                  {t('tools_userManagement')}
-                </Link>
-              </DropdownItem>
-              <DropdownItem key={t('tools_branchManagement')} textValue={t('tools_branchManagement')}>
-                <Link color="foreground" href="/" as={NextLink}>
-                  {t('tools_branchManagement')}
-                </Link>
-              </DropdownItem>
-              <DropdownItem key={t('tools_companyManagement')} textValue={t('tools_companyManagement')}>
-                <Link color="foreground" href="/" as={NextLink}>
-                  {t('tools_companyManagement')}
-                </Link>
-              </DropdownItem>
-              <DropdownItem key={t('tools_packagesExpiration')} textValue={t('tools_packagesExpiration')}>
-                <Link color="foreground" href="/" as={NextLink}>
-                  {t('tools_packagesExpiration')}
-                </Link>
-              </DropdownItem>
-              <DropdownItem key={t('tools_inactivePackages')} textValue={t('tools_inactivePackages')}>
-                <Link color="foreground" href="/" as={NextLink}>
-                  {t('tools_inactivePackages')}
-                </Link>
-              </DropdownItem>
-            </DropdownSection>
-          </DropdownMenu>
-        </Dropdown>
-      </NavbarItem>
-      <NavbarItem>
-        <Dropdown className="min-w-[8em]" showArrow={true} disableAnimation={true}>
-          <DropdownTrigger>
-            <Button
-              disableRipple
-              className="p-0 bg-transparent data-[hover=true]:bg-transparent data-[hover=true]:text-primary-500 text-lg"
-              startContent={<QuestionMarkCircleIcon className="h-5 w-5" />}
-              radius="sm"
-              variant="light"
-            >
-              {t('help')}
-            </Button>
-          </DropdownTrigger>
-          <DropdownMenu variant="faded" aria-label="Dropdown menu with description">
-            <DropdownSection showDivider>
-              <DropdownItem key={t('help_frequentlyAskedQuestions')} textValue={t('help_frequentlyAskedQuestions')}>
-                <Link color="foreground" href="/" as={NextLink}>
-                  {t('help_frequentlyAskedQuestions')}
-                </Link>
-              </DropdownItem>
-              <DropdownItem key={t('help_downloadManual')} textValue={t('help_downloadManual')}>
-                <Link color="foreground" href="/" as={NextLink}>
-                  {t('help_downloadManual')}
-                </Link>
-              </DropdownItem>
-              <DropdownItem key={t('help_iaprDocumentation')} textValue={t('help_iaprDocumentation')}>
-                <Link color="foreground" href="/" as={NextLink}>
-                  {t('help_iaprDocumentation')}
-                </Link>
-              </DropdownItem>
-            </DropdownSection>
-            <DropdownSection>
-              <DropdownItem key={t('help_openApiDocumentation')} textValue={t('help_openApiDocumentation')}>
-                <Link color="foreground" href="/" as={NextLink}>
-                  {t('help_openApiDocumentation')}
-                </Link>
-              </DropdownItem>
-              <DropdownItem key={t('help_developerWiki')} textValue={t('help_developerWiki')}>
-                <Link color="foreground" href="/" as={NextLink}>
-                  {t('help_developerWiki')}
-                </Link>
-              </DropdownItem>
-            </DropdownSection>
-          </DropdownMenu>
-        </Dropdown>
-      </NavbarItem>
-    </NavbarContent>
+          )}
+        </NavbarItem>
+      ))}
+    </Tag>
   );
 }

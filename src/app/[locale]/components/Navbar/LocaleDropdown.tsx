@@ -36,7 +36,12 @@ export default function LocaleSwitcherTest({
   return (
     <Dropdown className='min-w-[6em]' disableAnimation={true}>
       <DropdownTrigger>
-        <Button variant='bordered'>{locale}</Button>
+        <Button
+          variant='bordered'
+          className='p-0 bg-transparent data-[hover=true]:bg-transparent data-[hover=true]:text-primary-500 text-lg  '
+        >
+          {locale}
+        </Button>
       </DropdownTrigger>
       <DropdownMenu
         aria-label='Static Actions'

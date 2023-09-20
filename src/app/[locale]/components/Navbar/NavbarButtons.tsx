@@ -4,7 +4,6 @@ import {
   NavbarContent,
   NavbarItem,
   Link,
-  Button,
   Avatar,
   Dropdown,
   DropdownTrigger,
@@ -22,46 +21,60 @@ export default function NavbarButtons({ locale }: { locale: string }) {
   const t = useTranslations('Navbar');
   const { data: session } = useSession();
   return (
-    <NavbarContent justify="end">
+    <NavbarContent justify='end'>
       <NavbarItem>
         <LocaleDropdown locale={locale} />
       </NavbarItem>
       {session ? (
-        <Dropdown placement="bottom-end">
+        <Dropdown placement='bottom-end'>
           <DropdownTrigger>
             <Avatar
               isBordered
-              as="button"
-              className="transition-transform"
-              color="secondary"
-              name="Jason Hughes"
-              size="sm"
-              src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
+              as='button'
+              className='transition-transform'
+              color='secondary'
+              name='Jason Hughes'
+              size='sm'
+              src='https://i.pravatar.cc/150?u=a042581f4e29026704d'
             />
           </DropdownTrigger>
           <DropdownMenu
-            aria-label="Profile Actions"
-            variant="flat"
-            onAction={key => {
+            aria-label='Profile Actions'
+            variant='flat'
+            onAction={(key) => {
               if (key === t('profile_logout')) signOut();
             }}
           >
-            <DropdownItem key={t('profile')} textValue={t('profile')} className="h-14 gap-2">
-              <p className="font-semibold">Signed in as</p>
-              <p className="font-semibold">zoey@example.com</p>
+            <DropdownItem
+              key={t('profile')}
+              textValue={t('profile')}
+              className='h-14 gap-2'
+            >
+              <p className='font-semibold'>Signed in as</p>
+              <p className='font-semibold'>zoey@example.com</p>
             </DropdownItem>
-            <DropdownItem key={t('profile_selectCompany')} textValue={t('profile_selectCompany')}>
-              <Link color="foreground" href="/" as={NextLink}>
+            <DropdownItem
+              key={t('profile_selectCompany')}
+              textValue={t('profile_selectCompany')}
+            >
+              <Link color='foreground' href='/' as={NextLink}>
                 {t('profile_selectCompany')}
               </Link>
             </DropdownItem>
-            <DropdownItem key={t('profile_myClaimsToDelete')} textValue={t('profile_myClaimsToDelete')}>
-              <Link color="foreground" href="/" as={NextLink}>
+            <DropdownItem
+              key={t('profile_myClaimsToDelete')}
+              textValue={t('profile_myClaimsToDelete')}
+            >
+              <Link color='foreground' href='/' as={NextLink}>
                 {t('profile_myClaimsToDelete')}
               </Link>
             </DropdownItem>
-            <DropdownItem key={t('profile_logout')} textValue={t('profile_logout')} color={'danger'}>
-              <span className="text-danger-400 ">{t('profile_logout')}</span>
+            <DropdownItem
+              key={t('profile_logout')}
+              textValue={t('profile_logout')}
+              color={'danger'}
+            >
+              <span className='text-danger-400 '>{t('profile_logout')}</span>
             </DropdownItem>
           </DropdownMenu>
         </Dropdown>
