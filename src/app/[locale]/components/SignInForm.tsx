@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { Button, Input, Spinner } from '@nextui-org/react';
+import { Button, Input } from '@nextui-org/react';
 
 import { EyeIcon, EyeOffIcon } from '@heroicons/react/outline';
 
@@ -46,83 +46,73 @@ export default function SignInForm() {
 
   return (
     <>
-      <div className='sm:mx-auto sm:w-full sm:max-w-sm'>
-        <h2 className='mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900'>
-          {t('title')}
-        </h2>
+      <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+        <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">{t('title')}</h2>
       </div>
 
-      <div className='mt-10 sm:mx-auto sm:w-full sm:max-w-sm'>
-        <form className='space-y-6' onSubmit={handleSubmit}>
+      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+        <form className="space-y-6" onSubmit={handleSubmit}>
           <div>
-            <div className='flex w-full flex-wrap md:flex-nowrap'>
+            <div className="flex w-full flex-wrap md:flex-nowrap">
               <Input
                 isClearable
-                id='email'
+                id="email"
                 label={t('emailLabel')}
-                name='email'
-                type='email'
-                autoComplete='email'
-                size='md'
-                variant='bordered'
+                name="email"
+                type="email"
+                autoComplete="email"
+                size="md"
+                variant="bordered"
                 maxLength={30}
-                onChange={(e) => (email.current = e.target.value)}
+                onChange={e => (email.current = e.target.value)}
               />
             </div>
           </div>
 
           <div>
-            <div className='flex items-center justify-end'>
-              <div className='text-sm mb-1'>
-                <Link
-                  href='/'
-                  className='font-semibold text-primary-600 hover:text-primary-500'
-                >
+            <div className="flex items-center justify-end">
+              <div className="text-sm mb-1">
+                <Link href="/" className="font-semibold text-primary-600 hover:text-primary-500">
                   {t('missingPassword')}
                 </Link>
               </div>
             </div>
             <Input
               label={t('passwordLabel')}
-              variant='bordered'
-              size='md'
+              variant="bordered"
+              size="md"
               maxLength={30}
-              autoComplete='password'
+              autoComplete="password"
               endContent={
-                <button
-                  className='focus:outline-none'
-                  type='button'
-                  onClick={toggleVisibility}
-                >
+                <button className="focus:outline-none" type="button" onClick={toggleVisibility}>
                   {isVisible ? (
-                    <EyeIcon className='h-5 w-5 text-2xl text-default-400 pointer-events-none' />
+                    <EyeIcon className="h-5 w-5 text-2xl text-default-400 pointer-events-none" />
                   ) : (
-                    <EyeOffIcon className='h-5 w-5 text-2xl text-default-400 pointer-events-none' />
+                    <EyeOffIcon className="h-5 w-5 text-2xl text-default-400 pointer-events-none" />
                   )}
                 </button>
               }
               type={isVisible ? 'text' : 'password'}
-              onChange={(e) => (password.current = e.target.value)}
+              onChange={e => (password.current = e.target.value)}
             />
-            <p className='text-red-500 text-sm mt-1 mx-2'>{error}</p>
+            <p className="text-red-500 text-sm mt-1 mx-2">{error}</p>
           </div>
 
           <div>
             <Button
-              type='submit'
-              className='flex w-full justify-center rounded-md bg-primary-500 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-primary-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600'
+              type="submit"
+              className="flex w-full justify-center rounded-md bg-primary-500 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-primary-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600"
+              spinner
+              spinnerPlacement="end"
             >
               {t('signInButton')}
             </Button>
           </div>
         </form>
 
-        <p className='mt-10 text-center text-sm text-gray-500'>
+        <p className="mt-10 text-center text-sm text-gray-500">
           {t('trial')}
-          <Link
-            href='/'
-            className=' pl-2 font-semibold leading-6 text-primary-500 hover:text-primary-500'
-          >
+          <Link href="/" className=" pl-2 font-semibold leading-6 text-primary-500 hover:text-primary-500">
             {t('trialMessage')}
           </Link>
         </p>

@@ -1,6 +1,5 @@
 'use client';
-import { Card, Skeleton, Button } from '@nextui-org/react';
-import { DocumentDuplicateIcon } from '@heroicons/react/outline';
+import { Card, Skeleton, Snippet } from '@nextui-org/react';
 
 export default function loading() {
   return (
@@ -12,25 +11,26 @@ export default function loading() {
             <Skeleton className="rounded-lg">
               <div className=" h-14 rounded-lg bg-default-300"></div>
             </Skeleton>
-            <div className="flex justify-between items-center align-middle">
-              <Skeleton className="w-4/5 rounded-lg">
-                <div className="h-3 w-4/5 rounded-lg bg-default-200 "></div>
-              </Skeleton>
-              <Skeleton className="h-5 w-5 rounded-lg">
-                <Button
-                  isIconOnly={true}
-                  disableRipple
-                  color="primary"
-                  aria-label="copy Vat"
-                  variant="light"
-                  spinner
-                  size="sm"
-                  className="bg-transparent h-5 w-5"
-                >
-                  <DocumentDuplicateIcon className=" w-full h-full rounded-lg" />
-                </Button>
-              </Skeleton>
-            </div>
+            <Skeleton className="rounded-lg">
+              <Snippet
+                size="sm"
+                symbol=""
+                tooltipProps={{
+                  color: 'foreground',
+                  content: 'Copy this snippet',
+                  placement: 'top',
+                  closeDelay: 0,
+                }}
+                variant="bordered"
+                color="default"
+                classNames={{
+                  pre: 'text-sm font-medium',
+                  copyButton: 'hover:text-primary-500',
+                }}
+              >
+                1234567890
+              </Snippet>
+            </Skeleton>
           </Card>
         ))}
     </div>
